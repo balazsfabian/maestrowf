@@ -88,6 +88,11 @@ def cancel_study(args):
     return 0
 
 
+def add_to_study(args):
+    """Add to an existing study."""
+    pass
+
+
 def run_study(args):
     """Run a Maestro study."""
     # Load the Specification
@@ -286,6 +291,25 @@ def setup_argparser():
         help="Make use of a temporary directory for dumping scripts and other "
         "Maestro related files.")
     run.set_defaults(func=run_study)
+
+    # subparser for an add subcommand.
+    # The "maestro add" subparser is used to add new steps to the workflow.
+    add = subparsers.add_parser(
+        "add",
+        help="Add new entries to a workflow.")
+    add.add_argument(
+        "study path", type=str,
+        help="Path to the root of the study workspace to add to.")
+    add.add_argument(
+        "-e", "--environment", required=False, type=str,
+        help="Path to an environment specification file.")
+    add.add_argument(
+        "-p", "--parameters", required=True, type=str,
+        help="Path to a parameter specification file.")
+    add.add_argument(
+        "-s", "--steps", required=True, type=str,
+        help="Path to a study specification file containing a list of steps.")
+    add.set_defaults(func=add_to_study)
 
     # subparser for a status subcommand
     status = subparsers.add_parser(
