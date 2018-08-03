@@ -1,0 +1,18 @@
+description:
+    name: failure_test
+    description: A simple test to show the conductor returns a FAILURE code.
+env:
+    variables:
+        OUTPUT_PATH: ./sample_output/testing
+study:
+    - name: rc_test
+      description: Build the serial version of LULESH.
+      run:
+          cmd: |
+            exit $(RCODE)
+          depends: []
+
+global.parameters:
+    RCODE:
+        values  : [0, 1, 2]
+        label   : RC.%%
