@@ -53,9 +53,10 @@ class BatchInterface(object):
         """
         Generate the header present at the top of execution scripts.
 
-        :param resoruces: A StudyStep instance.
+        :param batch_info: A dictionary containing general batch information.
+        :param resoruces: A collection of requested resources.
         :returns: A string of the header based on internal batch parameters and
-            the parameter step.
+        the parameter step.
         """
         pass
 
@@ -66,7 +67,7 @@ class BatchInterface(object):
 
         :param joblist: A list of job identifiers to be queried.
         :returns: The return code of the status query, and a dictionary of job
-            identifiers to their status.
+        identifiers to their status.
         """
         pass
 
@@ -87,5 +88,25 @@ class BatchInterface(object):
 
         :param job_state: String representation of scheduler job status.
         :returns: A Study.State enum corresponding to parameter job_state.
+        """
+        pass
+
+    @abstractmethod
+    def submit(self, step, path, cwd, job_map=None, env=None):
+        """
+        Submit a script to the scheduler.
+
+        If cwd is specified, the submit method will operate outside of the path
+        specified by the 'cwd' parameter.
+        If env is specified, the submit method will set the environment
+        variables for submission to the specified values. The 'env' parameter
+        should be a dictionary of environment variables.
+
+        :param step: An instance of a StudyStep.
+        :param path: Path to the script to be executed.
+        :param cwd: Path to the current working directory.
+        :param job_map: A map of workflow step names to their job identifiers.
+        :param env: A dict containing a modified environment for execution.
+        :returns: The return code of the submission command and job identiifer.
         """
         pass
